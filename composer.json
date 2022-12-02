@@ -1,0 +1,8 @@
+{
+  "description": "Disable comment author links and limit the number of links in comment.",
+  "license": "GPL-3.0-or-later",
+  "name": "mecha-cms/x.comment.guard.link",
+  "require": {
+    "mecha-cms/x.comment": "^2.0.0"
+  }
+}

@@ -1,0 +1,34 @@
+---
+title: Comment Guard Link
+description: Disable comment author links and limit the number of links in comment.
+icon: 'M9 22C8.4 22 8 21.6 8 21V18H4C2.9 18 2 17.1 2 16V4C2 2.9 2.9 2 4 2H20C21.1 2 22 2.9 22 4V16C22 17.1 21.1 18 20 18H13.9L10.2 21.7C10 21.9 9.8 22 9.5 22H9M13 11V5H11V11M13 15V13H11V15H13Z'
+author: Taufik Nurrohman
+type: Markdown
+version: 1.0.0
+
+use:
+  '.\lot\x\comment': 1
+...
+
+Limit the number of links that go into comments with this extension. This extension does not change the existing
+comments data, it only changes their presentation when they appear in the comments layout. You can set the maximum
+number of links allowed in a comment by setting the `content` value in `.\lot\x\comment.guard.link\state.php` file. The
+`link` property is used to determine whether an anchor that surrounds the comment author’s name in the default comment
+markup should be removed or not, and whether you want to strip all links in the existing comments or not. Please note
+that this will also get rid of the link field in the comment form.
+
+~~~ .php
+<?php
+
+return [
+    'content' => 5,
+    'link' => false
+];
+~~~
+
+If you set the `content` value to be less than `0`, then it is the same as disabling this restriction feature.
+
+If you set the `link` value to `0`, it will only remove the link field from the comment form. Value as a number greater
+than `0` will be considered as `true` value (which would be equivalent to not using this extension at all). Value as a
+number less than `0` will remove the anchor that surrounds the comment author’s name and will convert all links in the
+comment content into plain text.
