@@ -13,8 +13,7 @@ use:
 Limit the number of links that go into comments with this extension. You can set the maximum number of links allowed in
 a comment by setting the `content` value in `.\lot\x\comment.guard.link\state.php` file. The `link` property is used to
 determine whether an anchor that surrounds the comment author’s name in the default comment markup should be removed or
-not, and whether you want to strip all links in the existing comments or not. Please note that this will also get rid of
-the link field in comment form.
+not. Please note that this will also get rid of the link field in comment form.
 
 ~~~ .php
 <?php
@@ -31,7 +30,7 @@ links in comments. Value as a number greater than `0` will limit the number of l
 
 If you set the `link` value to `true`, then it is the same as enabling the link field in comment form. If you set the
 `link` value to `0` or `false`, it will remove the link field in comment form. Value as a number less than `0` will
-remove the link field in comment form including anchor tags that surrounds the comment author’s name in the existing
+remove the link field in comment form including anchor tags that surround the comment author’s name in the existing
 comments.
 
 Key | Value | Description
