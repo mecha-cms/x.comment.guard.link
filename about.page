@@ -10,12 +10,11 @@ use:
   '.\lot\x\comment': 1
 ...
 
-Limit the number of links that go into comments with this extension. This extension does not change the existing
-comments data, it only changes their presentation when they appear in the comments layout. You can set the maximum
-number of links allowed in a comment by setting the `content` value in `.\lot\x\comment.guard.link\state.php` file. The
-`link` property is used to determine whether an anchor that surrounds the comment author’s name in the default comment
-markup should be removed or not, and whether you want to strip all links in the existing comments or not. Please note
-that this will also get rid of the link field in the comment form.
+Limit the number of links that go into comments with this extension. You can set the maximum number of links allowed in
+a comment by setting the `content` value in `.\lot\x\comment.guard.link\state.php` file. The `link` property is used to
+determine whether an anchor that surrounds the comment author’s name in the default comment markup should be removed or
+not, and whether you want to strip all links in the existing comments or not. Please note that this will also get rid of
+the link field in comment form.
 
 ~~~ .php
 <?php
@@ -26,9 +25,26 @@ return [
 ];
 ~~~
 
-If you set the `content` value to be less than `0`, then it is the same as disabling this restriction feature.
+If you set the `content` value to `true`, it will allow links in comments. Value as a number less than `0` will convert
+all links in comment content into plain text. If you set the `content` value to `0` or `false`, it will disallow any
+links in comments. Value as a number greater than `0` will limit the number of links you can put in a comment.
 
-If you set the `link` value to `0`, it will only remove the link field from the comment form. Value as a number greater
-than `0` will be considered as `true` value (which would be equivalent to not using this extension at all). Value as a
-number less than `0` will remove the anchor that surrounds the comment author’s name and will convert all links in the
-comment content into plain text.
+If you set the `link` value to `true`, then it is the same as enabling the link field in comment form. If you set the
+`link` value to `0` or `false`, it will remove the link field in comment form. Value as a number less than `0` will
+remove the link field in comment form including anchor tags that surrounds the comment author’s name in the existing
+comments.
+
+Key | Value | Description
+--- | ----- | -----------
+`content` | `-1` | Disallow links in comments and remove all links in the existing comments.
+`content` | `0` | Disallow links in comments.
+`content` | `5` | Allow a maximum of 5 links in a comment.
+`content` | `false` | Disallow links in comments.
+`content` | `true` | Allow links in comments.
+`link` | `-1` | Hide link field in comment form and remove anchor tags that surrounds the comment’s author name.
+`link` | `0` | Hide link field in comment form.
+`link` | `false` | Hide link field in comment form.
+`link` | `true` | Show link field in comment form.
+
+This extension does not change the existing comments data, it only changes their presentation when they appear in the
+default comments layout.
