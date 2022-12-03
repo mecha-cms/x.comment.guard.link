@@ -23,7 +23,7 @@ namespace x\comment__guard__link {
         unset($y[1]['link']);
         return $y;
     }
-    function route($content, $path, $query) {
+    function route($content, $path, $query, $hash) {
         if ('POST' !== $_SERVER['REQUEST_METHOD']) {
             return $content;
         }
@@ -38,7 +38,7 @@ namespace x\comment__guard__link {
                 foreach (['author', 'content', 'email'] as $v) {
                     $_SESSION['form']['comment'][$v] = $_POST['comment'][$v] ?? null;
                 }
-                \kick($path . $query . '#comment');
+                \kick($path . $query . ($hash ?? '#comment'));
             }
             if (false !== \strpos($test, '://') && \preg_match_all('/\bhttps?:\/\/\S+/', \strip_tags($test), $m)) {
                 if (\count($m[0]) > $max) {
@@ -46,7 +46,7 @@ namespace x\comment__guard__link {
                     foreach (['author', 'content', 'email'] as $v) {
                         $_SESSION['form']['comment'][$v] = $_POST['comment'][$v] ?? null;
                     }
-                    \kick($path . $query . '#comment');
+                    \kick($path . $query . ($hash ?? '#comment'));
                 }
             }
         }
