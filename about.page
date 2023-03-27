@@ -6,9 +6,6 @@ color: '#d6bf2a'
 author: Taufik Nurrohman
 type: Markdown
 version: 1.0.0
-
-use:
-  '.\lot\x\comment': 1
 ...
 
 Limit the number of links that go into comments with this extension. You can set the maximum number of links allowed in
