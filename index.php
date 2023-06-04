@@ -1,6 +1,6 @@
 <?php
 
-namespace x\comment__guard__link {
+namespace x\comment__guard__link\y {
     // Disable this extension if `comment` extension is disabled or removed ;)
     if (!isset($state->x->comment)) {
         return;
@@ -31,6 +31,9 @@ namespace x\comment__guard__link {
         unset($y[1]['link']);
         return $y;
     }
+}
+
+namespace x\comment__guard__link {
     function route($content, $path, $query, $hash) {
         if ('POST' !== $_SERVER['REQUEST_METHOD']) {
             return $content;
@@ -68,7 +71,7 @@ namespace x\comment__guard__link {
     $link = $state->x->{'comment.guard.link'}->link ?? 0;
     if (false === $link || $link < 1) {
         \Hook::set('route.comment', __NAMESPACE__ . "\\route", 0);
-        \Hook::set('y.form.comment', __NAMESPACE__ . "\\form", 100);
+        \Hook::set('y.form.comment', __NAMESPACE__ . "\\y\\form", 100);
     }
-    \Hook::set('y.comment', __NAMESPACE__ . "\\comment", 100);
+    \Hook::set('y.comment', __NAMESPACE__ . "\\y\\comment", 100);
 }
