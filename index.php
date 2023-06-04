@@ -1,40 +1,33 @@
-<?php
+<?php namespace x\comment__guard__link;
 
-namespace x\comment__guard__link\y {
-    // Disable this extension if `comment` extension is disabled or removed ;)
-    if (!isset($state->x->comment)) {
-        return;
-    }
-    function comment($y) {
-        \extract($GLOBALS, \EXTR_SKIP);
-        $content = (int) ($state->x->{'comment.guard.link'}->content ?? 5);
-        $link = (int) ($state->x->{'comment.guard.link'}->link ?? 0);
-        // Strip anchor tag(s) in comment content
-        if ($content < 0 && isset($y[1]['body'][1]['content'][1])) {
-            $content = (string) $y[1]['body'][1]['content'][1];
-            $content = \preg_replace('/<a(?:\s(?:"[^"]*"|\'[^\']*\'|[^\/>])*)?>|<\/a>/i', "", $content);
-            $y[1]['body'][1]['content'][1] = $content;
-        }
-        // Convert `<a>` to `<span>`
-        if ($link < 0 && isset($y[1]['header'][1]['author'][1]['link'])) {
-            $y[1]['header'][1]['author'][1]['link'][0] = 'span';
-            $y[1]['header'][1]['author'][1]['link'][2] = [];
-        }
-        return $y;
-    }
-    function form($y) {
-        \extract($GLOBALS, \EXTR_SKIP);
-        if (isset($state->x->user) && \Is::user()) {
-            return $y; // Disable the security if current user is logged-in
-        }
-        // Remove `link` field in the default comment form
-        unset($y[1]['link']);
-        return $y;
-    }
+// Disable this extension if `comment` extension is disabled or removed ;)
+if (!isset($state->x->comment)) {
+    return;
 }
 
-namespace x\comment__guard__link {
-    function route($content, $path, $query, $hash) {
+function y__comment($y) {
+    \extract($GLOBALS, \EXTR_SKIP);
+    $content = (int) ($state->x->{'comment.guard.link'}->content ?? 5);
+    $link = (int) ($state->x->{'comment.guard.link'}->link ?? 0);
+    // Strip anchor tag(s) in comment content
+    if ($content < 0 && isset($y[1]['body'][1]['content'][1])) {
+        $content = (string) $y[1]['body'][1]['content'][1];
+        $content = \preg_replace('/<a(?:\s(?:"[^"]*"|\'[^\']*\'|[^\/>])*)?>|<\/a>/i', "", $content);
+        $y[1]['body'][1]['content'][1] = $content;
+    }
+    // Convert `<a>` to `<span>`
+    if ($link < 0 && isset($y[1]['header'][1]['author'][1]['link'])) {
+        $y[1]['header'][1]['author'][1]['link'][0] = 'span';
+        $y[1]['header'][1]['author'][1]['link'][2] = [];
+    }
+    return $y;
+}
+
+\Hook::set('y.comment', __NAMESPACE__ . "\\y__comment", 100);
+
+$link = $state->x->{'comment.guard.link'}->link ?? 0;
+if (false === $link || $link < 1) {
+    function route__comment($content, $path, $query, $hash) {
         if ('POST' !== $_SERVER['REQUEST_METHOD']) {
             return $content;
         }
@@ -68,10 +61,15 @@ namespace x\comment__guard__link {
         unset($_POST['comment']['link']);
         return $content;
     }
-    $link = $state->x->{'comment.guard.link'}->link ?? 0;
-    if (false === $link || $link < 1) {
-        \Hook::set('route.comment', __NAMESPACE__ . "\\route", 0);
-        \Hook::set('y.form.comment', __NAMESPACE__ . "\\y\\form", 100);
+    function y__form__comment($y) {
+        \extract($GLOBALS, \EXTR_SKIP);
+        if (isset($state->x->user) && \Is::user()) {
+            return $y; // Disable the security if current user is logged-in
+        }
+        // Remove `link` field in the default comment form
+        unset($y[1]['link']);
+        return $y;
     }
-    \Hook::set('y.comment', __NAMESPACE__ . "\\y\\comment", 100);
+    \Hook::set('route.comment', __NAMESPACE__ . "\\route__comment", 0);
+    \Hook::set('y.form.comment', __NAMESPACE__ . "\\y__form__comment", 100);
 }
