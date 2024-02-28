@@ -3,6 +3,6 @@
   "license": "GPL-3.0-or-later",
   "name": "mecha-cms/x.comment.guard.link",
   "require": {
-    "mecha-cms/x.comment": "^2.0.0"
+    "mecha-cms/x.comment": "^3.0.0"
   }
 }
