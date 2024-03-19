@@ -9,7 +9,7 @@ function route__comment($content, $path, $query, $hash) {
     if ('POST' !== $_SERVER['REQUEST_METHOD']) {
         return $content;
     }
-    \extract($GLOBALS, \EXTR_SKIP);
+    \extract(\lot(), \EXTR_SKIP);
     if (isset($state->x->user) && \Is::user()) {
         return $content; // Disable the security if current user is logged-in
     }
@@ -45,7 +45,7 @@ function route__comment($content, $path, $query, $hash) {
 }
 
 function y__comment($y, $lot) {
-    \extract($lot, \EXTR_SKIP);
+    \extract(\lot($lot), \EXTR_SKIP);
     $content = (int) ($state->x->{'comment.guard.link'}->content ?? 5);
     $link = (int) ($state->x->{'comment.guard.link'}->link ?? 0);
     // Strip anchor tag(s) in comment content
@@ -63,7 +63,7 @@ function y__comment($y, $lot) {
 }
 
 function y__form__comment($y, $lot) {
-    \extract($lot, \EXTR_SKIP);
+    \extract(\lot($lot), \EXTR_SKIP);
     if (isset($state->x->user) && \Is::user()) {
         return $y; // Disable the security if current user is logged-in
     }
