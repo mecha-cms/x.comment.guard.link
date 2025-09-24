@@ -18,10 +18,10 @@ function route__comment($content, $path, $query, $hash) {
     $max = $state->x->{'comment.guard.link'}->content ?? 5;
     $max = $max < 0 || false === $max ? 0 : $max;
     if (true !== $max) {
-        $test = $_POST['comment']['content'] ?? "";
+        $test = $_POST['content'] ?? "";
         if (\substr_count(\strtolower($test), '</a>') > $max) {
             foreach (['author', 'content', 'email'] as $v) {
-                $_SESSION['form']['comment'][$v] = $_POST['comment'][$v] ?? null;
+                $_SESSION['form'][$v] = $_POST[$v] ?? null;
             }
             $can_alert && \Alert::error(0 === $max ? 'Links are not allowed in the comment.' : 'Too many links in the comment.');
             \kick($path . $query . ($hash ?? '#comment'));
@@ -29,7 +29,7 @@ function route__comment($content, $path, $query, $hash) {
         if (false !== \strpos($test, '://') && \preg_match_all('/\bhttps?:\/\/\S+/', \strip_tags($test), $m)) {
             if (\count($m[0]) > $max) {
                 foreach (['author', 'content', 'email'] as $v) {
-                    $_SESSION['form']['comment'][$v] = $_POST['comment'][$v] ?? null;
+                    $_SESSION['form'][$v] = $_POST[$v] ?? null;
                 }
                 $can_alert && \Alert::error(0 === $max ? 'Links are not allowed in the comment.' : 'Too many links in the comment.');
                 \kick($path . $query . ($hash ?? '#comment'));
@@ -39,7 +39,7 @@ function route__comment($content, $path, $query, $hash) {
     $link = $state->x->{'comment.guard.link'}->link ?? 0;
     if (false === $link || $link < 1) {
         // Remove the submitted `link` data before it gets to the comment saving process route
-        unset($_POST['comment']['link']);
+        unset($_POST['link']);
     }
     return $content;
 }
